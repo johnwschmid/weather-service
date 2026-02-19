@@ -1,0 +1,25 @@
+<div class="text-2xl font-bold mb-4">Weather Forecast</div>
+<div>
+  <%= form_with url: root_path, method: :get do |f| %>
+    <div>
+      <div>
+        <%= f.label :address, "Enter address:" %>
+        <%= f.text_field :address, placeholder: "123 Park Ave, New York, NY, 12345", class: 'px-2 border rounded flex-grow w-80' %>
+      </div>
+      <div>
+        <%= f.label :high_low, "Show high/low temps:" %>
+        <%= f.check_box :high_low, class: 'px-2 border rounded mt-4' %>
+      </div>
+      <div>
+        <%= f.label :extended_forecast, "Extended forecast:" %>
+        <%= f.number_field :extended_forecast, placeholder: "# of days", class: 'px-2 border rounded flex-grow w-25 mt-2' %>
+      </div>
+    </div>
+    <%= f.submit "Submit", class: 'bg-gray-200 px-2 rounded hover:bg-gray-400 cursor-pointer mt-2' %>
+  <% end %>
+  <hr>
+  <% if @weather %>
+    <div>Results for <span class="underline"><%= @address %></span> - </div>
+    <div class="mt-3">Current temperature: <%= @weather.dig('current_temp') %>&deg;F </div>
+  <% end %>
+</div>
