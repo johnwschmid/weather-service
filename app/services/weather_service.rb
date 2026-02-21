@@ -31,7 +31,8 @@ class WeatherService
       latitude: coords[0],
       longitude: coords[1],
       current: 'temperature_2m',
-      temperature_unit: 'fahrenheit'
+      temperature_unit: 'fahrenheit',
+      timezone: 'auto'
     }
     query_items[:daily] = 'temperature_2m_max,temperature_2m_min' if @hl.present?
     query_items[:forecast_days] = @ext if @ext.present?
@@ -41,7 +42,7 @@ class WeatherService
 
   def parse_data(response)
     results = {}
-    json = JSON.parse response, results
+    json = JSON.parse response
 
     results['current_temp'] = json.dig('current', 'temperature_2m')
     parse_highs_lows json, results if @hl.present?

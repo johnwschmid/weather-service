@@ -7,19 +7,31 @@
         <%= f.text_field :address, placeholder: "123 Park Ave, New York, NY, 12345", class: 'px-2 border rounded flex-grow w-80' %>
       </div>
       <div>
-        <%= f.label :high_low, "Show high/low temps:" %>
+        <%= f.label :high_low, "Show today's high/low temps:" %>
         <%= f.check_box :high_low, class: 'px-2 border rounded mt-4' %>
       </div>
       <div>
         <%= f.label :extended_forecast, "Extended forecast:" %>
-        <%= f.number_field :extended_forecast, placeholder: "# of days", class: 'px-2 border rounded flex-grow w-25 mt-2' %>
+        <%= f.number_field :extended_forecast, placeholder: "# of days", min: 2, max: 16, class: 'px-2 border rounded flex-grow w-25 mt-2' %>
       </div>
     </div>
     <%= f.submit "Submit", class: 'bg-gray-200 px-2 rounded hover:bg-gray-400 cursor-pointer mt-2' %>
   <% end %>
   <hr>
   <% if @weather %>
-    <div>Results for <span class="underline"><%= @address %></span> - </div>
+    <div class="font-bold">Weather results for <span class="underline"><%= @address %></span></div>
     <div class="mt-3">Current temperature: <%= @weather.dig('current_temp') %>&deg;F </div>
+    <% if !params[:extended_forecast].present? && params[:high_low].present? %>
+      <div class="mt-3">
+        Today's Low/High: <%= @weather.dig('highs_lows')[1][0] %>&deg;F / <%= @weather.dig('highs_lows')[1][1] %>&deg;F
+      </div>
+    <% elsif params[:extended_forecast].present? && params[:high_low].present? %>
+      <div class="mt-3">Extended forecast:</div>
+      <% @weather['highs_lows'].each do |k,v| %>
+        <div class="mt-2">
+            <div><%= k %>: Low <%= v[0] %>°F / High <%= v[1] %>°F</div>
+        </div>
+      <% end %>
+    <% end %>
   <% end %>
 </div>
