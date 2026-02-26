@@ -1,24 +1,5 @@
-# README
+# Weather API
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is a simple weather API that accepts an address, and returns the current weather with additional options to return the highs/lows for the day as well as for an extended forecast of up to 16 days. The Open-Meteo API only accepts coordinates, so first Geocoder is used to transcribe the address into coordinates, and then a request with the sought after parameters is sent to the API and the data returned to the client.
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+This application uses tailwind so the server is best run with 'bin/dev'

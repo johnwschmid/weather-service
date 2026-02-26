@@ -71,9 +71,11 @@ group :test do
 end
 
 gem 'byebug'
+gem 'connection_pool', '~> 2.4'
 gem 'dotenv-rails', '~> 3.2'
 gem 'geocoder', '~> 1.8'
 gem 'openssl'
 gem 'rails-controller-testing'
+gem 'redis', '~> 5.4'
 gem 'rubocop', '~> 1.84'
 gem 'rubocop-rails', '~> 2.34'

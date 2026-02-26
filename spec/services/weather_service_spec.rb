@@ -27,7 +27,7 @@ describe WeatherService do
         allow(Net::HTTP).to receive(:get_response).with(uri).and_return(mocked_api_response)
       end
       it 'returns current temp' do
-        expect(WeatherService.call(address)).to eq({ 'current_temp' => 21.8, 'highs_lows' => nil })
+        expect(WeatherService.call(address, false)).to eq({ 'current_temp' => 21.8, 'highs_lows' => nil })
       end
     end
     context 'when address is valid and high/low is true' do
@@ -40,7 +40,7 @@ describe WeatherService do
         allow(Net::HTTP).to receive(:get_response).with(uri).and_return(mocked_api_response)
       end
       it 'returns current temp and high/low' do
-        expect(WeatherService.call(address, true)).to eq({ 'current_temp' => 29.4, 'highs_lows' => ['2026-02-25', [18.9, 39.6]] })
+        expect(WeatherService.call(address, '1')).to eq({ 'current_temp' => 29.4, 'highs_lows' => ['2026-02-25', [18.9, 39.6]] })
       end
     end
     context 'when address, high/low, and extended forecast is valid' do
@@ -53,7 +53,7 @@ describe WeatherService do
         allow(Net::HTTP).to receive(:get_response).with(uri).and_return(mocked_api_response)
       end
       it 'returns all option data' do
-        expect(WeatherService.call(address, true, 3)).to eq({ 'current_temp' => 29.9, 'highs_lows' => { '2026-02-25' => [18.9, 39.6], '2026-02-26' => [17.1, 38.5], '2026-02-27' => [18.2, 37.9] } })
+        expect(WeatherService.call(address, '1', 3)).to eq({ 'current_temp' => 29.9, 'highs_lows' => { '2026-02-25' => [18.9, 39.6], '2026-02-26' => [17.1, 38.5], '2026-02-27' => [18.2, 37.9] } })
       end
     end
     context 'when api fails' do
