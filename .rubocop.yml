@@ -4,5 +4,26 @@ Style/FrozenStringLiteralComment:
 Style/Documentation:
   Enabled: false
 
+Style/OptionalBooleanParameter:
+  Enabled: false
+
 Lint/Debugger:
   Enabled: false
+
+Metrics/MethodLength:
+  Max: 15
+
+Metrics/AbcSize:
+  Enabled: false
+
+Layout/LineLength:
+  Exclude:
+    - "spec/**/*"
+
+Metrics/BlockLength:
+  Exclude:
+    - "spec/**/*"
+
+AllCops:
+  Exclude:
+    - "/**/.rvm/**/*"

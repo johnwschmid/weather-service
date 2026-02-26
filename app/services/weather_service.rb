@@ -1,4 +1,7 @@
 class WeatherService
+  class InvalidAddressError < StandardError; end
+  class ApiError < StandardError; end
+
   def initialize(address, high_low = false, extended_forecast = nil)
     @add = address
     @hl = high_low
@@ -6,14 +9,15 @@ class WeatherService
   end
 
   def self.call(address, high_low = false, extended_forecast = nil)
-    new(address, high_low = high_low, extended_forecast = extended_forecast).call
+    new(address, high_low, extended_forecast).call
   end
 
   def call
     # get coordinates needed for weather API
     results = Geocoder.search @add
-    coords = results.first.coordinates
+    raise InvalidAddressError if results.empty?
 
+    coords = results.first.coordinates
     fetch_weather_data(coords)
   end
 
@@ -21,8 +25,10 @@ class WeatherService
 
   def fetch_weather_data(coords)
     uri = build_uri coords
-    response = Net::HTTP.get uri
-    parse_data response
+    response = Net::HTTP.get_response(uri)
+    raise ApiError unless response.code == '200'
+
+    parse_data response.body
   end
 
   def build_uri(coords)
@@ -49,7 +55,7 @@ class WeatherService
 
     # only pick current day's temps unless user wants extended forecast
     # by default open-meteo returns 7 days of highs/lows if extended forecast is not specified
-    results['highs_lows'] = results['highs_lows'].first unless @ext.present?
+    results['highs_lows'] = results['highs_lows']&.first unless @ext.present?
 
     results
   end
