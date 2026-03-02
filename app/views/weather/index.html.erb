@@ -20,7 +20,10 @@
   <% end %>
   <hr>
   <% if @weather %>
-    <div class="font-bold">Weather results for <span class="underline"><%= @address %></span></div>
+    <% if @cached %>
+      <span class="bg-green-100 text-green-800 px-2 rounded">Returned from cache</span>
+    <% end %>
+    <div class="font-bold mt-2">Weather results for <span class="underline"><%= @address %></span></div>
     <div class="mt-3">Current temperature: <%= @weather.dig('current_temp') %>&deg;F </div>
     <% if !params[:extended_forecast].present? && params[:high_low] == '1' %>
       <div class="mt-3">
@@ -30,7 +33,7 @@
       <div class="mt-3">Extended forecast:</div>
       <% @weather['highs_lows'].each do |k,v| %>
         <div class="mt-2">
-            <div><%= k %>: Low <%= v[0] %>°F / High <%= v[1] %>°F</div>
+          <div><%= k %>: Low <%= v[0] %>°F / High <%= v[1] %>°F</div>
         </div>
       <% end %>
     <% end %>

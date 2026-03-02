@@ -5,6 +5,7 @@ class WeatherController < ApplicationController
     @address = params[:address]
     zipcode = @address.match(/\d{5}/)&.to_s
     @weather = if zipcode
+                 @cached = Rails.cache.exist?(zipcode)
                  Rails.cache.fetch(zipcode, expires_in: 30.minutes) do
                    fetch_weather
                  end
